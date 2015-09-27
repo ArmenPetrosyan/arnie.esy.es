@@ -34,6 +34,12 @@ if ( ! isset( $content_width ) ) {
 	$content_width = 660;
 }
 
+/**
+ * Twenty Fifteen only works in WordPress 4.1 or later.
+ */
+if ( version_compare( $GLOBALS['wp_version'], '4.1-alpha', '<' ) ) {
+	require get_template_directory() . '/inc/back-compat.php';
+}
 
 if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 /**
@@ -97,15 +103,15 @@ function twentyfifteen_setup() {
 		'aside', 'image', 'video', 'quote', 'link', 'gallery', 'status', 'audio', 'chat'
 	) );
 
-//	$color_scheme  = twentyfifteen_get_color_scheme();
-//	$default_color = trim( $color_scheme[0], '#' );
-//
-//	// Setup the WordPress core custom background feature.
-//	add_theme_support( 'custom-background', apply_filters( 'twentyfifteen_custom_background_args', array(
-//		'default-color'      => $default_color,
-//		'default-attachment' => 'fixed',
-//	) ) );
-//
+	$color_scheme  = twentyfifteen_get_color_scheme();
+	$default_color = trim( $color_scheme[0], '#' );
+
+	// Setup the WordPress core custom background feature.
+	add_theme_support( 'custom-background', apply_filters( 'twentyfifteen_custom_background_args', array(
+		'default-color'      => $default_color,
+		'default-attachment' => 'fixed',
+	) ) );
+
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
 	 * specifically font, colors, icons, and column width.
@@ -327,3 +333,23 @@ function twentyfifteen_search_form_modify( $html ) {
 }
 add_filter( 'get_search_form', 'twentyfifteen_search_form_modify' );
 
+/**
+ * Implement the Custom Header feature.
+ *
+ * @since Twenty Fifteen 1.0
+ */
+require get_template_directory() . '/inc/custom-header.php';
+
+/**
+ * Custom template tags for this theme.
+ *
+ * @since Twenty Fifteen 1.0
+ */
+require get_template_directory() . '/inc/template-tags.php';
+
+/**
+ * Customizer additions.
+ *
+ * @since Twenty Fifteen 1.0
+ */
+require get_template_directory() . '/inc/customizer.php';
